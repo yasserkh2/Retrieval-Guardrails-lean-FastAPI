@@ -1,0 +1,34 @@
+mini-rag/
+├─ app/                        # presentation (FastAPI)
+│  ├─ main.py                  # app factory, lifespan, DI wiring
+│  ├─ routers/
+│  │  └─ answer.py             # POST /answer, GET /metrics (thin)
+│  ├─ deps.py                  # dependency providers (Depends)
+│  └─ middleware.py            # latency middleware
+├─ core/                       # domain interfaces + models (pure python)
+│  ├─ models.py                # Query, Snippet, Answer DTOs
+│  ├─ ports.py                 # Retriever, Guardrail, Synthesizer, MetricsSink
+│  └─ errors.py                # Domain errors (e.g., GuardrailViolation)
+├─ services/                   # application layer orchestration
+│  └─ qa_service.py            # orchestrates guardrail → retrieve → synthesize
+├─ adapters/                   # infrastructure implementations (swappable)
+│  ├─ retrieval/
+│  │  ├─ tfidf_cosine.py       # TF-IDF + cosine (default)
+│  │  └─ tfidf_dot.py          # TF-IDF raw + dot (contrast)
+│  ├─ guardrails/
+│  │  └─ denylist.py           # simple phrase denylist
+│  ├─ synth/
+│  │  └─ naive_stitch.py       # minimal stitcher
+│  └─ metrics/
+│     └─ inmem.py              # in-memory counters + summaries
+├─ config/
+│  └─ settings.py              # Pydantic Settings (env, .env)
+├─ data/
+│  └─ corpus.py                # your 10–15 snippets
+├─ tests/
+│  ├─ test_answer_api.py
+│  ├─ test_guardrail.py
+│  └─ test_retrieval_configs.py
+├─ requirements.txt
+├─ .env.example
+└─ README.md
