@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 
 from app.routes import answer
 from app.core.metrics import LatencyMiddleware
-from app.retrieval.index import initialize_index
+from app.guardrails import denylist
 
 
 @asynccontextmanager
@@ -23,6 +23,14 @@ async def lifespan(app: FastAPI):
     from app.services.retrieval_service import get_retrieval_service
     retrieval_service = get_retrieval_service()
     retrieval_service.initialize()
+    
+    # Initialize guardrails with TF-IDF vectors
+    try:
+        from app.retrieval.index import get_index
+        index = get_index()
+        denylist.initialize_denylist_vectors(index.vectorizer)
+    except Exception as e:
+        print(f"⚠️ Failed to initialize guardrail vectors: {e}")
     
     print("✅ Services initialized successfully")
     

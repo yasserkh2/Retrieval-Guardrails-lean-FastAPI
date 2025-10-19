@@ -3,7 +3,7 @@ Guardrail service - encapsulates all guardrail logic.
 Makes it easy to add more guardrails beyond denylist.
 """
 from typing import Optional, Protocol
-from app.guardrails.denylist import query_is_denied as denylist_check
+from app.guardrails.denylist import check_query as denylist_check
 
 
 class GuardrailResult:
