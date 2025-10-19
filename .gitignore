@@ -33,9 +33,6 @@ wheels/
 # Environment
 .env
 
-# Documentation (hide extra docs, keep README)
-ARCHITECTURE.md
-STRUCTURE.md
-MODULARIZATION.md
-TESTING_GUIDE.md
-SUBMISSION_CHECKLIST.md
+# Documentation (hide all .md files except README.md)
+*.md
+!README.md
